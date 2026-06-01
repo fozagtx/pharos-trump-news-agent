@@ -7,10 +7,9 @@ native Sui x402.
 No seeded listings are included. Listings and purchase receipts live in the Sui
 Move contract. Product bytes are Seal-encrypted before they touch Walrus.
 
-Walaxy includes a Tatum Sui provider integration. The backend splits Sui access
-between JSON-RPC and gRPC so it can run through Tatum Testnet with
-`TATUM_API_KEY`, while the browser wallet client stays on a public gRPC endpoint
-and never receives provider secrets.
+Walaxy keeps the primary Sui Testnet JSON-RPC and gRPC endpoints in code, not in
+Render env. `TATUM_API_KEY` can live in env and is used only as a Tatum fallback
+for retryable JSON-RPC failures from the primary Sui endpoint.
 
 ## Live
 
@@ -120,27 +119,25 @@ Stable defaults live in `src/shared/config.ts`, not `.env`:
 
 Use `.env` only for deployed object ids and service keys:
 
-- `SUI_RPC_URL`
-- `SUI_GRPC_URL`
 - `TATUM_API_KEY`
 - `SUI_PACKAGE_ID`
 - `SUI_OPERATOR_CAP_ID`
 - `SUI_OPERATOR_SECRET_KEY`
 - `X402_SUI_FACILITATOR_SECRET_KEY`
 
-To use Tatum Testnet, set the provider URLs and a real Tatum key:
+Primary Sui provider URLs and fallback URLs are intentionally not env-driven:
 
 ```bash
-SUI_RPC_URL=https://sui-testnet.gateway.tatum.io
-SUI_GRPC_URL=https://sui-testnet-grpc.gateway.tatum.io
+src/shared/config.ts
+```
+
+Keep only the Tatum key in env:
+
+```bash
 TATUM_API_KEY=<provider-key>
 ```
 
-The backend sends `TATUM_API_KEY` as `x-api-key` on JSON-RPC requests and as
-gRPC metadata for native server gRPC clients. The browser wallet client does not
-receive the Tatum key.
-
-Keep production on the public Mysten endpoints until Tatum object reads and
-event queries are verified with your real key. Anonymous Tatum JSON-RPC can rate
-limit `suix_queryEvents`, and anonymous Tatum gRPC did not return the existing
-product object during verification.
+The browser wallet client does not receive the Tatum key. Provider endpoint
+changes must be made in code and reviewed before deployment. Tatum fallback is
+used only when the primary JSON-RPC request fails with a retryable provider
+error such as network failure, HTTP 429, HTTP 408, or HTTP 5xx.

@@ -2,7 +2,7 @@ import { Transaction } from '@mysten/sui/transactions';
 import { fromHex } from '@mysten/sui/utils';
 import type { ProductPublic } from '../shared/types.js';
 import { config } from './config.js';
-import { createSuiGrpcClient, suiJsonRpcHeaders } from './sui-clients.js';
+import { createSuiGrpcClient, suiJsonRpc } from './sui-clients.js';
 import { keypairFromSuiSecret } from './sui-keypair.js';
 
 const MODULE = 'marketplace';
@@ -10,14 +10,6 @@ const PRODUCT_CREATED = 'ProductCreated';
 const PURCHASE_RECORDED = 'PurchaseRecorded';
 const PRODUCT_READ_RETRIES = 8;
 const PRODUCT_READ_DELAY_MS = 750;
-
-type JsonRpcResponse<T> = {
-  result?: T;
-  error?: {
-    code: number;
-    message: string;
-  };
-};
 
 type QueryEventsResult = {
   data: Array<{
@@ -311,27 +303,11 @@ function getOperatorClient() {
 }
 
 async function suiRpc<T>(method: string, params: unknown[]): Promise<T> {
-  const response = await fetch(config.suiRpcUrl, {
-    method: 'POST',
-    headers: suiJsonRpcHeaders(),
-    body: JSON.stringify({
-      jsonrpc: '2.0',
-      id: Date.now(),
-      method,
-      params,
-    }),
-  });
-
-  const payload = (await response.json()) as JsonRpcResponse<T>;
-  if (!response.ok || payload.error) {
-    throw new ContractError(502, payload.error?.message || `Sui RPC ${method} failed with ${response.status}.`);
+  try {
+    return await suiJsonRpc<T>(method, params);
+  } catch (error) {
+    throw new ContractError(502, error instanceof Error ? error.message : `Sui RPC ${method} failed.`);
   }
-
-  if (payload.result === undefined) {
-    throw new ContractError(502, `Sui RPC ${method} did not return a result.`);
-  }
-
-  return payload.result;
 }
 
 function productFromFields(productId: string, fields: Record<string, unknown>): ProductPublic {

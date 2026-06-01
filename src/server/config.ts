@@ -4,9 +4,11 @@ import { defaultConfig } from '../shared/config.js';
 
 export const config = {
   port: Number(process.env.PORT || defaultConfig.port),
-  suiRpcUrl: trimTrailingSlash(process.env.SUI_RPC_URL || defaultConfig.suiRpcUrl),
-  suiGrpcUrl: trimTrailingSlash(process.env.SUI_GRPC_URL || defaultConfig.suiGrpcUrl),
-  tatumApiKey: (process.env.TATUM_API_KEY || '').trim(),
+  suiRpcUrl: trimTrailingSlash(defaultConfig.suiRpcUrl),
+  suiGrpcUrl: trimTrailingSlash(defaultConfig.suiGrpcUrl),
+  tatumRpcUrl: trimTrailingSlash(defaultConfig.tatumRpcUrl),
+  tatumGrpcUrl: trimTrailingSlash(defaultConfig.tatumGrpcUrl),
+  tatumApiKey: cleanSecret(process.env.TATUM_API_KEY || ''),
   walrusPublisherUrl: trimTrailingSlash(
     process.env.WALRUS_PUBLISHER_URL || defaultConfig.walrusPublisherUrl,
   ),
@@ -25,4 +27,13 @@ export const config = {
 
 function trimTrailingSlash(value: string): string {
   return value.replace(/\/+$/, '');
+}
+
+function cleanSecret(value: string): string {
+  const trimmed = value.trim();
+  const quote = trimmed[0];
+  if ((quote === '"' || quote === "'") && trimmed.endsWith(quote)) {
+    return trimmed.slice(1, -1).trim();
+  }
+  return trimmed;
 }

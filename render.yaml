@@ -14,10 +14,6 @@ services:
         value: 0x6693e7abdc5ac42fffab1dfb2fd336a79606cf0dce044ff4549164b4218ff2f4
       - key: SUI_OPERATOR_CAP_ID
         value: 0xdbda11655afc8420c6e621f253db245b6d1767919c6676ecfba0b0b00c5b2ad4
-      - key: SUI_RPC_URL
-        value: https://fullnode.testnet.sui.io:443
-      - key: SUI_GRPC_URL
-        value: https://fullnode.testnet.sui.io:443
       - key: TATUM_API_KEY
         sync: false
       - key: SUI_OPERATOR_SECRET_KEY

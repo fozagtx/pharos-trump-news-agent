@@ -565,6 +565,34 @@ Fix: restored Render and default config to the proven public Mysten Testnet RPC 
 
 Prevention: a provider switch is not verified by a checkpoint call. Test the exact production methods: `suix_queryEvents`, `sui_getObject`, contract writes, x402 challenge creation, and receipt paths.
 
+### M040 - Env-driven Sui provider switch broke the product surface
+
+Timestamp: 2026-06-01 22:45 GMT
+
+Trigger: Render env was changed to Tatum endpoints and the dashboard showed zero products even though products existed on chain.
+
+Mistake: `SUI_RPC_URL` and `SUI_GRPC_URL` were allowed to override the primary provider from env, so a deployment/env change could silently move contract reads and x402 reads onto a provider returning HTTP 429.
+
+Impact: the app showed `Products 0`, no selected product, and x402 asset routes failed with `sui_getObject failed with 429`.
+
+Fix: made the primary Sui JSON-RPC and gRPC endpoints code-owned in `src/shared/config.ts`; removed `SUI_RPC_URL` and `SUI_GRPC_URL` from Render/env examples; kept only `TATUM_API_KEY` as an env value.
+
+Prevention: provider endpoint changes must be code changes, not dashboard env toggles. Env should carry secrets and deployment ids, not the primary chain provider.
+
+### M041 - Tatum fallback intent was initially misread as no fallback
+
+Timestamp: 2026-06-01 22:50 GMT
+
+Trigger: the user clarified that the intended architecture is primary Sui RPC in code, with Tatum used only if the primary Sui RPC fails.
+
+Mistake: the first correction made primary endpoints code-owned but did not preserve Tatum as a fallback path.
+
+Impact: the architecture became too rigid: it prevented accidental env provider switches but did not provide the requested backup provider behavior.
+
+Fix: added a real JSON-RPC fallback helper that tries the code-owned primary Sui endpoint first and retries through the code-owned Tatum endpoint only for retryable failures, using `TATUM_API_KEY` from env.
+
+Prevention: distinguish "do not let env switch providers" from "do keep a provider fallback inside code." These are compatible requirements.
+
 ## Corrections Already Applied
 
 - Sui CLI installed and configured for Testnet.

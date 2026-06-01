@@ -1,17 +1,8 @@
 import type { ProductRecord } from './catalog.js';
-import { config } from './config.js';
 import { isContractPublished, verifyOnChainPurchase } from './contract.js';
-import { suiJsonRpcHeaders } from './sui-clients.js';
+import { suiJsonRpc } from './sui-clients.js';
 
 const SUI_COIN_TYPE = '0x2::sui::SUI';
-
-type JsonRpcResponse<T> = {
-  result?: T;
-  error?: {
-    code: number;
-    message: string;
-  };
-};
 
 type BalanceChange = {
   owner: unknown;
@@ -115,27 +106,7 @@ export function isSuiAddress(address: string): boolean {
 }
 
 async function suiRpc<T>(method: string, params: unknown[]): Promise<T> {
-  const response = await fetch(config.suiRpcUrl, {
-    method: 'POST',
-    headers: suiJsonRpcHeaders(),
-    body: JSON.stringify({
-      jsonrpc: '2.0',
-      id: Date.now(),
-      method,
-      params,
-    }),
-  });
-
-  const payload = (await response.json()) as JsonRpcResponse<T>;
-  if (!response.ok || payload.error) {
-    throw new Error(payload.error?.message || `Sui RPC ${method} failed with ${response.status}.`);
-  }
-
-  if (payload.result === undefined) {
-    throw new Error(`Sui RPC ${method} did not return a result.`);
-  }
-
-  return payload.result;
+  return suiJsonRpc<T>(method, params);
 }
 
 function ownerAddress(owner: unknown): string | null {
