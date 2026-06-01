@@ -509,6 +509,20 @@ Fix: added bounded retry/backoff for marketplace product object reads, limited t
 
 Prevention: all reads of objects created in the same transaction path must tolerate Sui RPC propagation delay. Do not treat first-read 404 as final unless retries have been exhausted.
 
+### M036 - Render proxy produced non-HTTPS agent URLs
+
+Timestamp: 2026-06-01 21:23 GMT
+
+Trigger: live `/api/products` returned a real product, but `agentBuyUrl` was generated as `http://walaxy.onrender.com/...`.
+
+Mistake: Express was not configured to trust Render's forwarding proxy, so `req.protocol` reflected the internal hop instead of the public HTTPS request.
+
+Impact: agent buyers could receive the wrong x402 asset URL, and x402 payment resource URLs could also be built with the wrong scheme.
+
+Fix: enabled Express proxy trust so request protocol resolution honors Render's forwarded HTTPS headers.
+
+Prevention: every deployed app behind a reverse proxy must set proxy trust before generating absolute URLs from request metadata.
+
 ## Corrections Already Applied
 
 - Sui CLI installed and configured for Testnet.

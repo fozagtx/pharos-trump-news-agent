@@ -28,6 +28,8 @@ import type { ProductPublic } from '../shared/types.js';
 import { buildSealDeliveryDescriptor, encryptAssetForSeal, sealKeyServers } from './seal.js';
 
 const app = express();
+app.set('trust proxy', true);
+
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: {
