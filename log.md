@@ -523,6 +523,20 @@ Fix: enabled Express proxy trust so request protocol resolution honors Render's 
 
 Prevention: every deployed app behind a reverse proxy must set proxy trust before generating absolute URLs from request metadata.
 
+### M037 - x402 route crashed on secret-key whitespace
+
+Timestamp: 2026-06-01 21:24 GMT
+
+Trigger: probing the live agent asset URL returned HTTP 500 with a Bech32 decoder error before the server could emit an x402 challenge.
+
+Mistake: the Sui secret-key parser passed raw environment values directly into `decodeSuiPrivateKey`, so a trailing newline or pasted whitespace in Render env could break key decoding.
+
+Impact: agents could see a server error instead of the expected HTTP 402 payment challenge, even though the product catalog and contract state were live.
+
+Fix: normalized Sui secret-key input by trimming whitespace and added a clear empty-key failure before decoding.
+
+Prevention: all secret values that are copied through deployment dashboards must be normalized at the ingestion boundary, while never logging the secret itself.
+
 ## Corrections Already Applied
 
 - Sui CLI installed and configured for Testnet.
