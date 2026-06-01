@@ -7,6 +7,11 @@ native Sui x402.
 No seeded listings are included. Listings and purchase receipts live in the Sui
 Move contract. Product bytes are Seal-encrypted before they touch Walrus.
 
+Walaxy includes a Tatum Sui provider integration. The backend splits Sui access
+between JSON-RPC and gRPC so it can run through Tatum Testnet with
+`TATUM_API_KEY`, while the browser wallet client stays on a public gRPC endpoint
+and never receives provider secrets.
+
 ## Live
 
 - App: https://walaxy.onrender.com
