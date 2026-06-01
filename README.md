@@ -13,6 +13,10 @@ Move contract. Product bytes are Seal-encrypted before they touch Walrus.
 - Agent catalog: https://walaxy.onrender.com/api/products
 - Health: https://walaxy.onrender.com/api/health
 
+## Interface
+
+![Walaxy dashboard](docs/walaxy-dashboard.png)
+
 ## Run
 
 ```bash
