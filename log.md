@@ -547,9 +547,23 @@ Mistake: the first local patch made `https://sui-testnet-grpc.gateway.tatum.io` 
 
 Impact: Tatum JSON-RPC returned live Sui data, but Tatum native gRPC returned `Object not found` for a product object that both Tatum JSON-RPC and Mysten gRPC could read. Shipping that default could have broken contract writes, Seal transaction building, or x402 payment transaction construction.
 
-Fix: kept Tatum JSON-RPC as the default read endpoint, restored server/browser gRPC defaults to the known-good Mysten Testnet endpoint, and left Tatum native gRPC supported only as an explicit `SUI_GRPC_URL` override once a real Tatum key and object reads are verified.
+Fix: restored server/browser gRPC defaults to the known-good Mysten Testnet endpoint and left Tatum native gRPC supported only as an explicit `SUI_GRPC_URL` override once a real Tatum key and object reads are verified.
 
 Prevention: never promote a provider endpoint from documentation alone. Verify the exact SDK transport and exact object/transaction paths used by the app before setting it as a production default.
+
+### M039 - Anonymous Tatum JSON-RPC hit production rate limits
+
+Timestamp: 2026-06-01 21:57 GMT
+
+Trigger: Render deployed with `SUI_RPC_URL=https://sui-testnet.gateway.tatum.io` and no `TATUM_API_KEY`.
+
+Mistake: anonymous Tatum JSON-RPC was promoted into Render config after a simple checkpoint probe succeeded, but the app's real catalog path calls `suix_queryEvents`, which immediately returned HTTP 429.
+
+Impact: live `/api/health` and `/api/products` could fail even though the app was deployed and the contract state was valid.
+
+Fix: restored Render and default config to the proven public Mysten Testnet RPC and kept Tatum as an explicit opt-in override that requires a real provider key.
+
+Prevention: a provider switch is not verified by a checkpoint call. Test the exact production methods: `suix_queryEvents`, `sui_getObject`, contract writes, x402 challenge creation, and receipt paths.
 
 ## Corrections Already Applied
 

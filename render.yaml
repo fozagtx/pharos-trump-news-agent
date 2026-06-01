@@ -15,7 +15,7 @@ services:
       - key: SUI_OPERATOR_CAP_ID
         value: 0xdbda11655afc8420c6e621f253db245b6d1767919c6676ecfba0b0b00c5b2ad4
       - key: SUI_RPC_URL
-        value: https://sui-testnet.gateway.tatum.io
+        value: https://fullnode.testnet.sui.io:443
       - key: SUI_GRPC_URL
         value: https://fullnode.testnet.sui.io:443
       - key: TATUM_API_KEY

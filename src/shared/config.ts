@@ -3,7 +3,7 @@ export const defaultConfig = {
   apiBaseUrl: 'http://localhost:8787',
   publicAppUrl: 'https://walaxy.onrender.com',
   publicCatalogUrl: 'https://walaxy.onrender.com/api/products',
-  suiRpcUrl: 'https://sui-testnet.gateway.tatum.io',
+  suiRpcUrl: 'https://fullnode.testnet.sui.io:443',
   suiGrpcUrl: 'https://fullnode.testnet.sui.io:443',
   browserSuiGrpcUrl: 'https://fullnode.testnet.sui.io:443',
   walrusPublisherUrl: 'https://publisher.walrus-testnet.walrus.space',

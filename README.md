@@ -123,18 +123,19 @@ Use `.env` only for deployed object ids and service keys:
 - `SUI_OPERATOR_SECRET_KEY`
 - `X402_SUI_FACILITATOR_SECRET_KEY`
 
-For Tatum Testnet:
+To use Tatum Testnet, set the provider URLs and a real Tatum key:
 
 ```bash
 SUI_RPC_URL=https://sui-testnet.gateway.tatum.io
-SUI_GRPC_URL=https://fullnode.testnet.sui.io:443
-TATUM_API_KEY=<optional-provider-key>
+SUI_GRPC_URL=https://sui-testnet-grpc.gateway.tatum.io
+TATUM_API_KEY=<provider-key>
 ```
 
 The backend sends `TATUM_API_KEY` as `x-api-key` on JSON-RPC requests and as
 gRPC metadata for native server gRPC clients. The browser wallet client does not
 receive the Tatum key.
 
-`https://sui-testnet-grpc.gateway.tatum.io` is supported by the server gRPC
-factory, but keep `SUI_GRPC_URL` on the Mysten Testnet endpoint until a real
-Tatum key is set and object reads are verified against that provider.
+Keep production on the public Mysten endpoints until Tatum object reads and
+event queries are verified with your real key. Anonymous Tatum JSON-RPC can rate
+limit `suix_queryEvents`, and anonymous Tatum gRPC did not return the existing
+product object during verification.
