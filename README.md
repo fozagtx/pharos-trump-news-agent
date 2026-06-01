@@ -47,13 +47,13 @@ The backend does not store product decryption keys in `data/catalog.json`.
 Agents discover products at:
 
 ```bash
-GET http://localhost:8787/api/products
+GET https://walaxy.onrender.com/api/products
 ```
 
 Each product includes `agentBuyUrl`:
 
 ```bash
-GET http://localhost:8787/x402/products/<productId>/asset
+GET https://walaxy.onrender.com/x402/products/<productId>/asset
 ```
 
 Without payment, the server returns `402 Payment Required` with a
@@ -66,7 +66,7 @@ Walrus ciphertext, asks Seal key servers for receipt-gated keys, decrypts
 locally, and writes the product file:
 
 ```bash
-AGENT_SUI_SECRET_KEY=<sui-private-key> npm run agent:buy -- http://localhost:8787/x402/products/<productId>/asset
+AGENT_SUI_SECRET_KEY=<sui-private-key> npm run agent:buy -- https://walaxy.onrender.com/x402/products/<productId>/asset
 ```
 
 Native Sui x402 also requires a facilitator gas-owner key on the server:

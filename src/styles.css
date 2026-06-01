@@ -285,7 +285,9 @@ button:disabled {
   font-family: "SFMono-Regular", Consolas, monospace;
   font-size: 0.74rem;
   font-weight: 800;
-  white-space: nowrap;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+  text-align: right;
 }
 
 .workflow-catalog-link:hover {
@@ -1243,6 +1245,7 @@ mysten-dapp-kit-connect-button::part(trigger) {
     width: 100%;
     margin-left: 0;
     justify-content: center;
+    text-align: center;
   }
 
   .workflow-track {

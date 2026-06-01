@@ -1,6 +1,8 @@
 export const defaultConfig = {
   port: 8787,
   apiBaseUrl: 'http://localhost:8787',
+  publicAppUrl: 'https://walaxy.onrender.com',
+  publicCatalogUrl: 'https://walaxy.onrender.com/api/products',
   suiRpcUrl: 'https://fullnode.testnet.sui.io:443',
   walrusPublisherUrl: 'https://publisher.walrus-testnet.walrus.space',
   walrusAggregatorUrl: 'https://aggregator.walrus-testnet.walrus.space',

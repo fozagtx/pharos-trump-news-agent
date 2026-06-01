@@ -21,6 +21,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { type ComponentType, type CSSProperties, FormEvent, type SVGProps, useEffect, useMemo, useState } from 'react';
 import { apiUrl, fetchHealth, fetchProducts, launchProduct, verifyPurchase } from './api';
+import { defaultConfig } from './shared/config';
 import { formatMistAsSui, parseSuiToMist, shortenAddress } from './shared/money';
 import type { HealthResponse, ProductPublic } from './shared/types';
 
@@ -79,7 +80,7 @@ function LandingLaunchAppButton({ className, iconSize }: { className: string; ic
 }
 
 function LandingPage() {
-  const catalogUrl = apiUrl('/api/products');
+  const catalogUrl = defaultConfig.publicCatalogUrl;
 
   return (
     <main className="landing-page">
@@ -119,7 +120,7 @@ function LandingPage() {
                   <span />
                   <strong>Walaxy launch path</strong>
                   <a className="workflow-catalog-link" href={catalogUrl} target="_blank" rel="noreferrer">
-                    GET /api/products
+                    {catalogUrl}
                   </a>
                 </div>
                 <div className="workflow-track">
