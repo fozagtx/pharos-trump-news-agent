@@ -1,0 +1,6 @@
+[package]
+name = "walrus_exchange"
+edition = "2024.beta"
+
+[addresses]
+walrus_exchange = "0x0"
