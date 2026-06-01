@@ -8,6 +8,8 @@ import { keypairFromSuiSecret } from './sui-keypair.js';
 const MODULE = 'marketplace';
 const PRODUCT_CREATED = 'ProductCreated';
 const PURCHASE_RECORDED = 'PurchaseRecorded';
+const PRODUCT_READ_RETRIES = 8;
+const PRODUCT_READ_DELAY_MS = 750;
 
 type JsonRpcResponse<T> = {
   result?: T;
@@ -180,6 +182,24 @@ export async function listOnChainProducts(): Promise<ProductPublic[]> {
 }
 
 export async function getOnChainProduct(productId: string): Promise<ProductPublic> {
+  let lastError: unknown;
+
+  for (let attempt = 0; attempt <= PRODUCT_READ_RETRIES; attempt += 1) {
+    try {
+      return await readOnChainProductOnce(productId);
+    } catch (error) {
+      lastError = error;
+      if (!isProductNotFound(error) || attempt === PRODUCT_READ_RETRIES) {
+        throw error;
+      }
+      await delay(PRODUCT_READ_DELAY_MS);
+    }
+  }
+
+  throw lastError instanceof Error ? lastError : new ContractError(404, 'On-chain product not found.');
+}
+
+async function readOnChainProductOnce(productId: string): Promise<ProductPublic> {
   const object = await suiRpc<SuiObjectResult>('sui_getObject', [
     productId,
     {
@@ -377,4 +397,12 @@ function normalizeAddress(address: string): string {
 
 function unique(values: string[]): string[] {
   return [...new Set(values)];
+}
+
+function isProductNotFound(error: unknown): boolean {
+  return error instanceof ContractError && error.status === 404;
+}
+
+function delay(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }

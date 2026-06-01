@@ -495,6 +495,20 @@ Fix: removed local content-key storage and the backend AES decrypt path; added S
 
 Prevention: do not store product content keys in local JSON, persistent disks, app databases, env vars, or logs. For private Walrus products, use Seal with a Move approval policy and receipt ownership.
 
+### M035 - Fresh Sui product reads could race RPC object availability
+
+Timestamp: 2026-06-01 21:00 GMT
+
+Trigger: the user hit `On-chain product not found.` after deploying and using the live app.
+
+Mistake: after the contract emitted a newly created product object ID, the backend immediately called `sui_getObject` once. Shared Sui objects can lag briefly behind the transaction/event path on public RPC.
+
+Impact: a real product launch or immediate read could fail even though the transaction had succeeded and the product object was about to become readable.
+
+Fix: added bounded retry/backoff for marketplace product object reads, limited to the specific 404 condition.
+
+Prevention: all reads of objects created in the same transaction path must tolerate Sui RPC propagation delay. Do not treat first-read 404 as final unless retries have been exhausted.
+
 ## Corrections Already Applied
 
 - Sui CLI installed and configured for Testnet.
