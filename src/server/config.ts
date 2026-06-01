@@ -4,7 +4,9 @@ import { defaultConfig } from '../shared/config.js';
 
 export const config = {
   port: Number(process.env.PORT || defaultConfig.port),
-  suiRpcUrl: process.env.SUI_RPC_URL || defaultConfig.suiRpcUrl,
+  suiRpcUrl: trimTrailingSlash(process.env.SUI_RPC_URL || defaultConfig.suiRpcUrl),
+  suiGrpcUrl: trimTrailingSlash(process.env.SUI_GRPC_URL || defaultConfig.suiGrpcUrl),
+  tatumApiKey: (process.env.TATUM_API_KEY || '').trim(),
   walrusPublisherUrl: trimTrailingSlash(
     process.env.WALRUS_PUBLISHER_URL || defaultConfig.walrusPublisherUrl,
   ),

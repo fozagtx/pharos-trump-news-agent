@@ -1,8 +1,8 @@
-import { SuiGrpcClient } from '@mysten/sui/grpc';
 import { Transaction } from '@mysten/sui/transactions';
 import { fromHex } from '@mysten/sui/utils';
 import type { ProductPublic } from '../shared/types.js';
 import { config } from './config.js';
+import { createSuiGrpcClient, suiJsonRpcHeaders } from './sui-clients.js';
 import { keypairFromSuiSecret } from './sui-keypair.js';
 
 const MODULE = 'marketplace';
@@ -305,7 +305,7 @@ function getOperatorClient() {
   }
 
   return {
-    client: new SuiGrpcClient({ network: 'testnet', baseUrl: config.suiRpcUrl }),
+    client: createSuiGrpcClient(),
     signer: keypairFromSuiSecret(config.suiOperatorSecretKey),
   };
 }
@@ -313,9 +313,7 @@ function getOperatorClient() {
 async function suiRpc<T>(method: string, params: unknown[]): Promise<T> {
   const response = await fetch(config.suiRpcUrl, {
     method: 'POST',
-    headers: {
-      'content-type': 'application/json',
-    },
+    headers: suiJsonRpcHeaders(),
     body: JSON.stringify({
       jsonrpc: '2.0',
       id: Date.now(),

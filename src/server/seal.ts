@@ -1,6 +1,5 @@
 import crypto from 'node:crypto';
 import { SealClient, SessionKey, type KeyServerConfig, type SealCompatibleClient } from '@mysten/seal';
-import { SuiGrpcClient } from '@mysten/sui/grpc';
 import { Transaction } from '@mysten/sui/transactions';
 import { fromHex } from '@mysten/sui/utils';
 import type { SealDeliveryDescriptor } from '../shared/types.js';
@@ -9,6 +8,7 @@ import type { ProductRecord, PurchaseRecord } from './catalog.js';
 import { downloadWalrusBlob } from './walrus.js';
 import type { SupportedSuiKeypair } from './sui-keypair.js';
 import { sha256 } from './crypto.js';
+import { createSuiGrpcClient } from './sui-clients.js';
 
 const SEAL_ID_BYTES = 32;
 const SEAL_APPROVE_FUNCTION = 'seal_approve_access';
@@ -137,10 +137,7 @@ function createSealClient(keyServers = sealKeyServers(), suiClient = createSuiCl
 }
 
 function createSuiClient(): SealCompatibleClient {
-  return new SuiGrpcClient({
-    network: 'testnet',
-    baseUrl: config.suiRpcUrl,
-  }) as unknown as SealCompatibleClient;
+  return createSuiGrpcClient() as unknown as SealCompatibleClient;
 }
 
 function walrusBlobUrl(blobId: string): string {

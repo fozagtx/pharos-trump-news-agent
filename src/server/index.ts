@@ -67,6 +67,8 @@ app.get('/api/health', async (_, res) => {
   const products = await listProducts();
   const health = {
     suiRpcUrl: config.suiRpcUrl,
+    suiGrpcUrl: config.suiGrpcUrl,
+    tatumApiKeyConfigured: Boolean(config.tatumApiKey),
     walrusPublisherUrl: config.walrusPublisherUrl,
     walrusAggregatorUrl: config.walrusAggregatorUrl,
     maxUploadBytes: config.maxUploadBytes,

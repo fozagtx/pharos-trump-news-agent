@@ -1,8 +1,9 @@
 import { createDAppKit } from '@mysten/dapp-kit-react';
 import { SuiGrpcClient } from '@mysten/sui/grpc';
+import { defaultConfig } from './shared/config';
 
 const GRPC_URLS = {
-  testnet: 'https://fullnode.testnet.sui.io:443',
+  testnet: defaultConfig.browserSuiGrpcUrl,
 } as const;
 
 export const dAppKit = createDAppKit({

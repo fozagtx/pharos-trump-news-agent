@@ -537,6 +537,20 @@ Fix: normalized Sui secret-key input by trimming whitespace and added a clear em
 
 Prevention: all secret values that are copied through deployment dashboards must be normalized at the ingestion boundary, while never logging the secret itself.
 
+### M038 - Tatum gRPC was unsafe as an unverified default
+
+Timestamp: 2026-06-01 21:55 GMT
+
+Trigger: the user asked to implement the Tatum Testnet RPC split with JSON-RPC URL, gRPC URL, and API key.
+
+Mistake: the first local patch made `https://sui-testnet-grpc.gateway.tatum.io` the default server gRPC URL before proving object reads through the same Mysten SDK transport used by the app.
+
+Impact: Tatum JSON-RPC returned live Sui data, but Tatum native gRPC returned `Object not found` for a product object that both Tatum JSON-RPC and Mysten gRPC could read. Shipping that default could have broken contract writes, Seal transaction building, or x402 payment transaction construction.
+
+Fix: kept Tatum JSON-RPC as the default read endpoint, restored server/browser gRPC defaults to the known-good Mysten Testnet endpoint, and left Tatum native gRPC supported only as an explicit `SUI_GRPC_URL` override once a real Tatum key and object reads are verified.
+
+Prevention: never promote a provider endpoint from documentation alone. Verify the exact SDK transport and exact object/transaction paths used by the app before setting it as a production default.
+
 ## Corrections Already Applied
 
 - Sui CLI installed and configured for Testnet.

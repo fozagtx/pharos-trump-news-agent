@@ -106,14 +106,35 @@ funded service key that owns `SUI_OPERATOR_CAP_ID`.
 
 Stable defaults live in `src/shared/config.ts`, not `.env`:
 
-- Sui Testnet RPC
+- Sui Testnet JSON-RPC
+- Sui Testnet gRPC
+- public browser wallet gRPC
 - Walrus Testnet publisher and aggregator
 - upload limits
 - Seal Testnet committee key server
 
 Use `.env` only for deployed object ids and service keys:
 
+- `SUI_RPC_URL`
+- `SUI_GRPC_URL`
+- `TATUM_API_KEY`
 - `SUI_PACKAGE_ID`
 - `SUI_OPERATOR_CAP_ID`
 - `SUI_OPERATOR_SECRET_KEY`
 - `X402_SUI_FACILITATOR_SECRET_KEY`
+
+For Tatum Testnet:
+
+```bash
+SUI_RPC_URL=https://sui-testnet.gateway.tatum.io
+SUI_GRPC_URL=https://fullnode.testnet.sui.io:443
+TATUM_API_KEY=<optional-provider-key>
+```
+
+The backend sends `TATUM_API_KEY` as `x-api-key` on JSON-RPC requests and as
+gRPC metadata for native server gRPC clients. The browser wallet client does not
+receive the Tatum key.
+
+`https://sui-testnet-grpc.gateway.tatum.io` is supported by the server gRPC
+factory, but keep `SUI_GRPC_URL` on the Mysten Testnet endpoint until a real
+Tatum key is set and object reads are verified against that provider.

@@ -1,5 +1,4 @@
 import { fromBase64 } from '@mysten/sui/utils';
-import { SuiGrpcClient } from '@mysten/sui/grpc';
 import type { Request, Response as ExpressResponse } from 'express';
 import { ExactSuiScheme as ExactSuiClientScheme } from '@tentaclepay/sui-x402/exact/client';
 import { ExactSuiScheme as ExactSuiFacilitatorScheme } from '@tentaclepay/sui-x402/exact/facilitator';
@@ -12,6 +11,7 @@ import { x402ResourceServer, type FacilitatorClient } from '@x402/core/server';
 import type { PaymentPayload, PaymentRequired, PaymentRequirements, SupportedResponse } from '@x402/core/types';
 import type { ProductRecord } from './catalog.js';
 import { config } from './config.js';
+import { createSuiGrpcClient } from './sui-clients.js';
 import { keypairFromSuiSecret, type SupportedSuiKeypair } from './sui-keypair.js';
 
 const X402_NETWORK = 'sui:testnet';
@@ -107,7 +107,7 @@ export async function createNativePaymentHeaderFromResponse(
 
 export function createNativeX402HttpClient(keypair: SupportedSuiKeypair): x402HTTPClient {
   const clientRegistry = createSuiClientRegistry();
-  clientRegistry.set(X402_NETWORK, new SuiGrpcClient({ network: 'testnet', baseUrl: config.suiRpcUrl }));
+  clientRegistry.set(X402_NETWORK, createSuiGrpcClient());
   const clientSigner = {
     address: `0x${keypair.toSuiAddress().replace(/^0x/, '')}` as `0x${string}`,
     signTransaction: async (bytes: string) => (await keypair.signTransaction(fromBase64(bytes))).signature,
@@ -135,7 +135,7 @@ async function createNativeX402Stack(): Promise<NativeX402Stack> {
 
   const facilitatorKeypair = keypairFromSuiSecret(config.x402SuiFacilitatorSecretKey);
   const clientRegistry = createSuiClientRegistry();
-  clientRegistry.set(X402_NETWORK, new SuiGrpcClient({ network: 'testnet', baseUrl: config.suiRpcUrl }));
+  clientRegistry.set(X402_NETWORK, createSuiGrpcClient());
 
   const facilitatorSigner = toFacilitatorSuiSigner({
     address: `0x${facilitatorKeypair.toSuiAddress().replace(/^0x/, '')}` as `0x${string}`,

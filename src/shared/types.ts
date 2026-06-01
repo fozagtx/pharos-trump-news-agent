@@ -21,6 +21,8 @@ export type ProductPublic = {
 
 export type HealthResponse = {
   suiRpcUrl: string;
+  suiGrpcUrl: string;
+  tatumApiKeyConfigured: boolean;
   walrusPublisherUrl: string;
   walrusAggregatorUrl: string;
   maxUploadBytes: number;

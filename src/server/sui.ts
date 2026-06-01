@@ -1,6 +1,7 @@
 import type { ProductRecord } from './catalog.js';
 import { config } from './config.js';
 import { isContractPublished, verifyOnChainPurchase } from './contract.js';
+import { suiJsonRpcHeaders } from './sui-clients.js';
 
 const SUI_COIN_TYPE = '0x2::sui::SUI';
 
@@ -116,9 +117,7 @@ export function isSuiAddress(address: string): boolean {
 async function suiRpc<T>(method: string, params: unknown[]): Promise<T> {
   const response = await fetch(config.suiRpcUrl, {
     method: 'POST',
-    headers: {
-      'content-type': 'application/json',
-    },
+    headers: suiJsonRpcHeaders(),
     body: JSON.stringify({
       jsonrpc: '2.0',
       id: Date.now(),
