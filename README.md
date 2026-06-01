@@ -7,6 +7,12 @@ native Sui x402.
 No seeded listings are included. Listings and purchase receipts live in the Sui
 Move contract. Product bytes are Seal-encrypted before they touch Walrus.
 
+## Live
+
+- App: https://walaxy.onrender.com
+- Agent catalog: https://walaxy.onrender.com/api/products
+- Health: https://walaxy.onrender.com/api/health
+
 ## Run
 
 ```bash
