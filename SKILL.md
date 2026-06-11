@@ -16,6 +16,12 @@ requires:
 
 Track, analyze, and report Donald Trump-related news in one skill. This is a single reusable module, not a split search/report pair.
 
+## Install
+
+```bash
+npx skills add https://github.com/fozagtx/pharos-trump-news-agent
+```
+
 ## Run
 
 ```bash
@@ -63,4 +69,3 @@ Returns JSON with normalized articles, source balance, trending topics, summary,
 - Do not generate campaign persuasion, fundraising, endorsement, or voter-targeting copy.
 - Mark single-source claims as `unverified`.
 - Satire and meme output must preserve the factual spine and remain clearly labeled.
-

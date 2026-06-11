@@ -25,6 +25,18 @@ This is built as a Pharos-compatible skill package for the Skill-to-Agent Dual C
 
 No third-party Python package is required; the skill uses Python standard-library HTTP utilities.
 
+## Install as a Skill
+
+```bash
+npx skills add https://github.com/fozagtx/pharos-trump-news-agent
+```
+
+After installing, set your Exa key:
+
+```bash
+export EXA_API_KEY="your_exa_key"
+```
+
 ## Quick Start
 
 ```bash
