@@ -1,0 +1,9 @@
+{
+  "prompt": "latest Trump legal news",
+  "tone": "neutral",
+  "audience": "general",
+  "num_results": 5,
+  "freshness_days": 7,
+  "bias": "all"
+}
+
