@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/logo.svg" alt="Pharos Trump News Agent logo" width="180">
+</p>
+
 # Pharos Trump News Agent
 
 An Exa-backed AI news skill for tracking, analyzing, and reporting Donald Trump-related news. It gathers live source material, normalizes article evidence, summarizes key developments, reviews source balance, creates fact-check notes, and can generate serious reports, neutral analysis, satire-labeled output, meme captions, or soundbites.
@@ -83,4 +87,3 @@ The skill returns JSON containing:
 ## Safety Notes
 
 This skill does not generate campaign persuasion, fundraising, endorsement, or voter-targeted messaging. It does not invent facts, fake quotes, court outcomes, poll numbers, or election results. Creative outputs are citation-grounded and flagged for human review.
-

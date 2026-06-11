@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Pharos Trump News Agent Logo</title>
+  <desc id="desc">A stylized newspaper, magnifying glass, AI chip, and broadcast signal for a Trump news monitoring skill.</desc>
+  <defs>
+    <linearGradient id="bg" x1="72" y1="80" x2="440" y2="432" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#061B3A"/>
+      <stop offset="1" stop-color="#0B315F"/>
+    </linearGradient>
+    <linearGradient id="cyan" x1="148" y1="160" x2="360" y2="372" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2FE7FF"/>
+      <stop offset="1" stop-color="#0AA8D8"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="12" stdDeviation="12" flood-color="#020B18" flood-opacity=".28"/>
+    </filter>
+  </defs>
+  <rect width="512" height="512" rx="108" fill="url(#bg)"/>
+  <circle cx="256" cy="256" r="190" fill="none" stroke="#D9E8FF" stroke-width="12" opacity=".18"/>
+  <path d="M78 278h54l22-57 34 121 33-91 24 47h50" fill="none" stroke="#2FE7FF" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+  <g filter="url(#shadow)">
+    <path d="M158 112h172c14 0 26 12 26 26v207c0 14-12 26-26 26H158c-14 0-26-12-26-26V138c0-14 12-26 26-26z" fill="#F7FBFF"/>
+    <path d="M181 156h126" stroke="#071F41" stroke-width="20" stroke-linecap="round"/>
+    <path d="M173 203h145" stroke="#E32B2F" stroke-width="12" stroke-linecap="round"/>
+    <path d="M173 240h57v56h-57z" fill="#071F41"/>
+    <path d="M250 242h68M250 269h68M173 322h145" stroke="#9BAABE" stroke-width="11" stroke-linecap="round"/>
+  </g>
+  <g filter="url(#shadow)">
+    <circle cx="327" cy="321" r="69" fill="#F7FBFF" stroke="#071F41" stroke-width="16"/>
+    <circle cx="327" cy="321" r="48" fill="#EAF6FF"/>
+    <path d="M306 344l18-54 20 54M314 328h22" fill="none" stroke="url(#cyan)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M376 370l63 63" stroke="#F7FBFF" stroke-width="27" stroke-linecap="round"/>
+    <path d="M376 370l63 63" stroke="#071F41" stroke-width="15" stroke-linecap="round"/>
+  </g>
+  <path d="M394 160c28 17 46 48 46 83M414 112c49 30 80 82 80 139" fill="none" stroke="#E32B2F" stroke-width="15" stroke-linecap="round"/>
+  <text x="256" y="438" text-anchor="middle" fill="#F7FBFF" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="800" letter-spacing="3">TRUMP NEWS AI</text>
+</svg>
+
