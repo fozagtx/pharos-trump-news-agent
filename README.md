@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/logo.svg" alt="Pharos Trump News Agent logo" width="180">
+  <img src="assets/logo.png" alt="Pharos Trump News Agent logo" width="180">
 </p>
 
 # Pharos Trump News Agent
